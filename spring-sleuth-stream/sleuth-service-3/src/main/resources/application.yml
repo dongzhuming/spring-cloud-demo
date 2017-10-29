@@ -1,3 +1,5 @@
+debug: true
+
 server:
   port: 9988
 
@@ -7,9 +9,11 @@ spring:
   zipkin:
     baseUrl: http://localhost:9966
     enabled: true
-
-stream:
   kafka:
-    binder:
-      brokers: 10.138.60.219:9092,10.138.60.197:9092
-        zk-nodes: 10.138.60.217:2181,10.138.60.217:2182,10.138.60.217:2183
+    bootstrap-servers: 10.138.60.219:9092,10.138.60.197:9092
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: 10.138.60.219:9092,10.138.60.197:9092
+          zk-nodes: 10.138.60.217:2181,10.138.60.217:2182,10.138.60.217:2183
