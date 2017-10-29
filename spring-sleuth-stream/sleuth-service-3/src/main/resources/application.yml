@@ -1,7 +1,7 @@
 debug: true
 
 server:
-  port: 9988
+  port: 9980
 
 spring:
   application:
