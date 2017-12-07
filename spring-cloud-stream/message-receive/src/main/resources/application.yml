@@ -1,14 +1,10 @@
 
 spring:
   rabbitmq:
-    host: localhost
+    host: 10.138.30.20
     port: 5672
-    username: admin
-    password: admin
-    virtualHost: /
-  cloud:
-    stream:
-      bindings:
-        input:
-          destination: payment
-          group: my-group
+    username: guest
+    password: guest
+  cloud.stream.bindings.input:
+    destination: router
+    group: payment

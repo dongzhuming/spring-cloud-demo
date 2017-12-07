@@ -17,4 +17,9 @@ class HomeController {
         log.info("收到HTTP请求service1");
         return myService.doCall();
     }
+
+    @RequestMapping("/hi")
+    public String sayHello() {
+        return "hello";
+    }
 }
