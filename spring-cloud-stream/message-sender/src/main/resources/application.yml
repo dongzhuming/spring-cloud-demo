@@ -5,5 +5,9 @@ spring:
     port: 5672
     username: guest
     password: guest
-  cloud.stream.bindings.output:
-    destination: router
+  cloud.stream:
+    bindings.output:
+      destination: router
+      producer:
+        partitionKeyExtractorClass: org.molecule.demo.spring.cloud.stream.messagesender.MyExtractor
+        partitionCount: 100

@@ -24,7 +24,7 @@ public class MessageSenderApplication implements ApplicationRunner {
 	}
 
 	private void publish() {
-		source.output().send(MessageBuilder.withPayload("A useless message").build());
+		source.output().send(MessageBuilder.withPayload("A useless message").setReplyChannelName("5").build());
 	}
 
 	public static void main(String[] args) {
