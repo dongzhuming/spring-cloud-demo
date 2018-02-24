@@ -7,7 +7,8 @@ spring:
     password: guest
   cloud.stream:
     bindings.output:
-      destination: router
+      destination: payment.loan.api
       producer:
         partitionKeyExtractorClass: org.molecule.demo.spring.cloud.stream.messagesender.MyExtractor
         partitionCount: 100
+        prefix: payment
