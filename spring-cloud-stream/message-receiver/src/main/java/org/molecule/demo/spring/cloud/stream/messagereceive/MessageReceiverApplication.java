@@ -12,6 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicLongArray;
 
 /**
  * @author Dong ZhuMing
@@ -21,14 +29,22 @@ import javax.annotation.PreDestroy;
 public class MessageReceiverApplication {
     private static final Logger logger = LoggerFactory.getLogger(MessageReceiverApplication.class);
 
+    private AtomicLong atomicLong = new AtomicLong();
+    private Map<Long, Void> map = new ConcurrentHashMap<>();
+
     @StreamListener(Sink.INPUT)
     @Transactional(rollbackFor = Exception.class)
     public void input(Message<String> message) {
+        long count = atomicLong.incrementAndGet();
         try {
-            logger.info("Received a Message：[{}]", message.getPayload());
-            Thread.sleep(50);
-        } catch(InterruptedException e) {
+            map.put(count, null);
+            logger.info("Processing:\t[{}]", count);
+            Thread.sleep(new Random().nextInt(5000));
+            logger.info("      Done:\t[{}]", count);
+        } catch (InterruptedException e) {
             logger.error("Terminate Exceptionally");
+        } finally {
+            map.remove(count);
         }
     }
 
@@ -38,8 +54,12 @@ public class MessageReceiverApplication {
     }
 
     @PreDestroy
-    public void tearDown() {
+    public void tearDown() throws InterruptedException {
         logger.info("Closing...");
+        while(map.size() > 0) {
+            logger.warn("Waiting for Stream job done");
+            Thread.sleep(500);
+        }
     }
 
     public static void main(String[] args) {
