@@ -7,10 +7,11 @@ spring:
     password: guest
   cloud.stream:
     instanceIndex: 5
-    bindings.input:
-      destination: payment.loan.api
-      group: result
-      consumer.partitioned: true
-    rabbit.bindings:
-      input.consumer:
-        bindingRoutingKey: payment.loan.api
+    bindings:
+      input:
+        destination: org.molecule.demo
+        group: test
+        consumer:
+          maxAttempts: 1
+          concurrency: 20
+

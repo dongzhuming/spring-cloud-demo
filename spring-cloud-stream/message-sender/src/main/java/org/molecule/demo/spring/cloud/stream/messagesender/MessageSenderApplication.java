@@ -23,8 +23,11 @@ public class MessageSenderApplication implements ApplicationRunner {
 		this.source = source;
 	}
 
-	private void publish() {
-		source.output().send(MessageBuilder.withPayload("A useless message").setReplyChannelName("5").build());
+	private void publish() throws Exception {
+		while(true) {
+			source.output().send(MessageBuilder.withPayload("A useless message").setReplyChannelName("5").build());
+			Thread.sleep(50);
+		}
 	}
 
 	public static void main(String[] args) {
