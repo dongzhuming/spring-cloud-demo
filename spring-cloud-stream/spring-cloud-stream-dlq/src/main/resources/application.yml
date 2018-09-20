@@ -1,0 +1,12 @@
+spring:
+
+  rabbitmq:
+    host: localhost
+
+  cloud.stream:
+    bindings:
+      output.destination: test
+    rabbit.bindings:
+      output.producer:
+        autoBindDlq: true
+        ttl: 1000
